@@ -1,0 +1,56 @@
+{
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Failure Alert — Gmail",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "name": "Error Handler — Email Triage Alerts (Forethinq Labs)",
+  "nodes": [
+    {
+      "id": "d4e5f6a7-2001-4001-8001-000000000001",
+      "name": "Error Trigger",
+      "parameters": {},
+      "position": [
+        240,
+        300
+      ],
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1
+    },
+    {
+      "id": "d4e5f6a7-2002-4001-8001-000000000002",
+      "name": "Failure Alert — Gmail",
+      "parameters": {
+        "emailType": "text",
+        "message": "=The Email Triage workflow hit an error. No email should be lost: mail stays in Gmail, and the failed execution holds the details. Check it and re-run after fixing the cause.\n\nWorkflow: {{ $json.workflow.name }}\nFailed node: {{ $json.execution.lastNodeExecuted }}\nError: {{ $json.execution.error.message }}\nExecution: {{ $json.execution.url }}",
+        "operation": "send",
+        "options": {},
+        "resource": "message",
+        "sendTo": "YOUR_EMAIL@example.com",
+        "subject": "=⚠️ Email Triage workflow failed — check n8n"
+      },
+      "position": [
+        480,
+        300
+      ],
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null
+}
